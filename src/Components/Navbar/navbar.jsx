@@ -1,7 +1,8 @@
 import React from 'react'
 import './navbar.css'
 import logo from '../Assetes/logo.png'
-import cart from '../Assetes/cart.png'
+import cart from '../Assetes/bag.png'
+import { Link } from 'react-router-dom'
 function navbar() {
   return (
     <div className="navbar">
@@ -10,14 +11,14 @@ function navbar() {
      <p>PEONY</p>
      </div>
      <ul className="nav-menu">
-        <li><a>Home</a> </li>
-        <li><a>About us</a> </li>
-        <li><a>Flowers</a> </li>
-        <li><a>Petal Talk</a> </li>
+     <li><Link to="/">Home</Link></li>
+     <li><a href="#">About us</a></li>  {/* For About us (non-router link) */}
+     <li><Link to="/product">Flowers</Link></li>
+     <li><Link to="/talk">Petal Talk</Link></li>
      </ul>
      <div className="nav-cart-login">
-        <button>LogIn</button>
-        <img src={cart} alt=""/>
+       <Link to='/login'><button>LogIn</button></Link> 
+       <Link to='/cart'><img src={cart} alt=""/></Link> 
         <div className="cart-counter">0</div>
      </div>
       </div>

@@ -70,7 +70,7 @@
     display: flex;
     justify-content: center;
     margin-top:-35px;
-    margin-left: -55px;
+    margin-left: -59px;
     border-radius: 11px;
     font-size: 14px;
     background: #c48c84;
@@ -78,25 +78,29 @@
 }
 
 .nav-menu li a {
-    text-decoration: none; 
-    position: relative; 
-    display: inline-block; 
-    padding-bottom: 5px; 
+    text-decoration: none; /* Remove the default underline */
+    position: relative; /* Needed for the position of the ::after pseudo-element */
+    display: inline-block; /* Ensures the element behaves like a block-level element */
+    padding-bottom: 5px; /* Space for the underline effect */
+    color: #333; /* Set a color for the links */
+    transition: color 0.3s ease; /* Optional: smooth transition for color change on hover */
   }
   
- 
+  /* Hover effect underline */
   .nav-menu li a::after {
-    content: ''; 
-    position: absolute;
-    bottom: 0; 
-    left: 0;
-    width: 0%; 
-    height: 2px; 
-    background-color: #000; 
-    transition: width 0.3s ease; 
+    content: ''; /* Empty content for the pseudo-element */
+    position: absolute; /* Absolute positioning for the underline effect */
+    bottom: 0; /* Align at the bottom of the link */
+    left: 0; /* Align to the left side of the link */
+    width: 0%; /* Start with zero width */
+    height: 2px; /* Set the height for the underline */
+    background-color: #c48c84; /* Set the color of the underline */
+    transition: width 0.3s ease; /* Smooth transition for the underline */
   }
   
-  /* Make the line appear when hovering */
+  /* When the link is hovered, make the underline grow */
   .nav-menu li a:hover::after {
-    width: 100%; /* Expand the line to full width */
+    width: 100%; /* On hover, expand the underline to the full width of the link */
   }
+  
+  
