@@ -12,7 +12,7 @@
  }
 
 .nav-logo p {
-    color:#c48c84;
+    color:#c37d75;
     font-size:38px;
     font-weight:600;
     font-family:'Chicle';
@@ -50,10 +50,10 @@
     height: 40px;
     outline: none;
     border: 1px solid ;
-    color: black;
+    color: #c37d75;
     font-size: 20px;
     font-weight: 500;
-    background-color: #c48c84;
+    background-color:white;
     cursor:pointer;
     border-radius: 20px;
 }
@@ -95,7 +95,7 @@
     left: 0; /* Align to the left side of the link */
     width: 0%; /* Start with zero width */
     height: 2px; /* Set the height for the underline */
-    background-color: #c48c84; /* Set the color of the underline */
+    background-color: #c37d75; /* Set the color of the underline */
     transition: width 0.3s ease; /* Smooth transition for the underline */
   }
   
