@@ -27,6 +27,7 @@ import wildflower from './Wildflower Mix.jpg'
 import berry from './Berry Rose Blend.jpg'
 import boho from './Boho Blossoms.jpg'
 
+
 let flowerProducts = [
   {
     id: 1,
@@ -217,4 +218,7 @@ let flowerProducts = [
     new_price: 17.99,
     old_price: 22.99
   }
+
+ 
 ];
+export default flowerProducts;
