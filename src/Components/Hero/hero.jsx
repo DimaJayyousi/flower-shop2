@@ -6,6 +6,7 @@ const hero = () => {
   <div>
     <section className='hero'>
       <img src={Hero} alt=''/>
+
      </section>
      
      <section>
