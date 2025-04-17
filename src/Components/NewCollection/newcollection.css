@@ -4,6 +4,7 @@
     align-items: center;
     gap: 20px;
    margin-bottom: 100px;
+
 }
 .newcollection h1{
     color:#445C35;
@@ -19,7 +20,8 @@
 }
 .collections {
     padding-right: 200px;
-
+    justify-content: space-between;
+ margin-left: 80px;
     margin-top: 50px;
     display: flex;
     gap: 100px; /* Adjust the gap between items */

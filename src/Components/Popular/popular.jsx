@@ -1,7 +1,7 @@
 import React from 'react';
 import './popular.css';
 import popular_data from '../Assetes/flower_products_copy'; // fixed the path typo
-import Items from '../Items/items'
+import Items from '../Items/Items'
 
 const Popular = () => {
   return (

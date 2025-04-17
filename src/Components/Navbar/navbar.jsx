@@ -12,7 +12,7 @@ function navbar() {
      </div>
      <ul className="nav-menu">
      <li><Link to="/">Home</Link></li>
-     <li><a href="#">About us</a></li>  {/* For About us (non-router link) */}
+     <li><Link to="/about_us">About us</Link></li>  {/* For About us (non-router link) */}
      <li><Link to="/product">Flowers</Link></li>
      <li><Link to="/talk">Petal Talk</Link></li>
      </ul>

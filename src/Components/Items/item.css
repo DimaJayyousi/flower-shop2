@@ -3,6 +3,7 @@
     
 }
 .item p {
+    text-decoration: none;
     margin: 6px 0px; /* Keeps space between paragraphs */
     white-space: nowrap; /* Prevents text from wrapping into a new line */
     text-overflow: ellipsis; /* Adds "..." if the text is too long for the container */

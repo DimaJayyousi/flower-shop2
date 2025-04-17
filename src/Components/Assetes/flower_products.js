@@ -35,16 +35,14 @@ let flowerProducts = [
     image: sunset,
     new_price: 24.99,
     old_price: 29.99,
-    category:"love"
-  },
+    description:"A flower born from the morning light, carrying within its petals a promise of peace. It spreads its fragrance gently, as if whispering to the world: (Be kind, for all things beautiful grow quietly.)"  },
   {
     id: 2,
     name: "Blush Peonies",
     image: blush,
     new_price: 34.5,
-    old_price: 39.95
-    ,
-    category:"love"
+    old_price: 39.95,
+    description:"Like a line from an unspoken poem, this shy rose blushes with the color of love. It looks at you softly, as if it knows your secrets. Between its petals... a heart beating with life."
   },
   {
     id: 3,
@@ -52,7 +50,7 @@ let flowerProducts = [
     image: lavender,
     new_price: 19.99,
     old_price: 24.99,
-    category:"love"
+    description:"Bathed in golden sunlight, this flower sings silently of new beginnings. Every curve of its petals feels like a lullaby from the Earth, soothing, sweet, and timeless."
   },
   {
     id: 4,
@@ -60,7 +58,7 @@ let flowerProducts = [
     image: diazy,
     new_price: 14.99,
     old_price: 19.99,
-    category:"love"
+    description:"Hidden between leaves and dreams, this bloom unfolds like a whispered secret. With every sway, it dances to the rhythm of the wind, enchanting all who pass by."
   },
   {
     id: 5,
@@ -68,7 +66,7 @@ let flowerProducts = [
     image: wildflower,
     new_price: 17.75,
     old_price: 22.0,
-    category:"love"
+    description:"Not just a flower — but a spell in bloom. Its colors shimmer with emotion, its scent stirs memories you didn’t know you had. It's the kind of beauty that makes time pause... just for a moment."
   },
   {
     id: 6,
@@ -76,7 +74,7 @@ let flowerProducts = [
     image: tulips,
     new_price: 21.95,
     old_price: 26.95,
-    category:"love"
+    description:"A flower born from the morning light, carrying within its petals a promise of peace. It spreads its fragrance gently, as if whispering to the world: (Be kind, for all things beautiful grow quietly.)"
   },
   {
     id: 7,
@@ -84,7 +82,7 @@ let flowerProducts = [
     image: pastel,
     new_price: 28.0,
     old_price: 33.0,
-    category:"love"
+    description:"Like a line from an unspoken poem, this shy rose blushes with the color of love. It looks at you softly, as if it knows your secrets. Between its petals... a heart beating with life."
   },
   {
     id: 8,
@@ -92,7 +90,7 @@ let flowerProducts = [
     image: bliss,
     new_price: 16.99,
     old_price: 21.99,
-    category:"love"
+    description:"Bathed in golden sunlight, this flower sings silently of new beginnings. Every curve of its petals feels like a lullaby from the Earth, soothing, sweet, and timeless."
   },
   {
     id: 9,
@@ -100,7 +98,7 @@ let flowerProducts = [
     image: white,
     new_price: 38.0,
     old_price: 44.0,
-    category:"love"
+    description:"Hidden between leaves and dreams, this bloom unfolds like a whispered secret. With every sway, it dances to the rhythm of the wind, enchanting all who pass by."
   },
   {
     id: 10,
@@ -108,7 +106,7 @@ let flowerProducts = [
     image: romantic,
     new_price: 29.99,
     old_price: 34.99,
-    category:"love"
+    description:"Not just a flower — but a spell in bloom. Its colors shimmer with emotion, its scent stirs memories you didn’t know you had. It's the kind of beauty that makes time pause... just for a moment."
   },
   {
     id: 11,
@@ -116,7 +114,7 @@ let flowerProducts = [
     image: ranunculus,
     new_price: 26.75,
     old_price: 31.5,
-    category:"love"
+    description:"A flower born from the morning light, carrying within its petals a promise of peace. It spreads its fragrance gently, as if whispering to the world: (Be kind, for all things beautiful grow quietly.)"
   },
   {
     id: 12,
@@ -124,7 +122,7 @@ let flowerProducts = [
     image: lilacs,
     new_price: 22.99,
     old_price: 28.99,
-    category:"love"
+    description:"Like a line from an unspoken poem, this shy rose blushes with the color of love. It looks at you softly, as if it knows your secrets. Between its petals... a heart beating with life."
   },
   {
     "id": 13,
@@ -132,7 +130,7 @@ let flowerProducts = [
     image: sweetheart,
     new_price: 33.0,
     old_price: 38.0,
-    category:"love"
+    description:"Bathed in golden sunlight, this flower sings silently of new beginnings. Every curve of its petals feels like a lullaby from the Earth, soothing, sweet, and timeless."
   },
   {
     id: 14,
@@ -140,7 +138,7 @@ let flowerProducts = [
     image: vintage,
     new_price: 18.95,
     old_price: 23.95,
-    category:"love"
+    description:"Hidden between leaves and dreams, this bloom unfolds like a whispered secret. With every sway, it dances to the rhythm of the wind, enchanting all who pass by."
   },
   {
     id: 15,
@@ -148,7 +146,7 @@ let flowerProducts = [
     image: peachy,
     new_price: 27.5,
     old_price: 32.5,
-    category:"love"
+    description:"Not just a flower — but a spell in bloom. Its colors shimmer with emotion, its scent stirs memories you didn’t know you had. It's the kind of beauty that makes time pause... just for a moment."
   },
   {
     id: 16,
@@ -156,7 +154,7 @@ let flowerProducts = [
     image: morning,
     new_price: 20.0,
     old_price: 25.0,
-    category:"love"
+    description:"A flower born from the morning light, carrying within its petals a promise of peace. It spreads its fragrance gently, as if whispering to the world: (Be kind, for all things beautiful grow quietly.)"
   },
   {
     id: 17,
@@ -164,7 +162,7 @@ let flowerProducts = [
     image: whimsical,
     new_price: 24.25,
     old_price: 29.25,
-    category:"love"
+    description:"Like a line from an unspoken poem, this shy rose blushes with the color of love. It looks at you softly, as if it knows your secrets. Between its petals... a heart beating with life."
   },
   {
     id: 18,
@@ -172,7 +170,7 @@ let flowerProducts = [
     image: snowy,
     new_price: 30.0,
     old_price: 35.0,
-    category:"love"
+    description:"Bathed in golden sunlight, this flower sings silently of new beginnings. Every curve of its petals feels like a lullaby from the Earth, soothing, sweet, and timeless."
   },
   {
     id: 19,
@@ -180,7 +178,7 @@ let flowerProducts = [
     image: berry,
     new_price: 22.45,
     old_price: 27.45,
-    category:"love"
+    description:"Hidden between leaves and dreams, this bloom unfolds like a whispered secret. With every sway, it dances to the rhythm of the wind, enchanting all who pass by."
   },
   {
     id: 20,
@@ -188,7 +186,7 @@ let flowerProducts = [
     image: spring,
     new_price: 19.95,
     old_price: 24.95,
-    category:"love"
+    description: "Not just a flower — but a spell in bloom. Its colors shimmer with emotion, its scent stirs memories you didn’t know you had. It's the kind of beauty that makes time pause... just for a moment.",
   },
   {
     id: 21,
@@ -196,7 +194,7 @@ let flowerProducts = [
     image: sun,
     new_price: 31.99,
     old_price: 37.99,
-    category:"love"
+    description: "A flower born from the morning light, carrying within its petals a promise of peace. It spreads its fragrance gently, as if whispering to the world: (Be kind, for all things beautiful grow quietly.)",
   },
   {
     id: 22,
@@ -204,7 +202,7 @@ let flowerProducts = [
     image: soft,
     new_price: 26.0,
     old_price: 31.0,
-    category:"love"
+    description: "Classic red roses perfect for any romantic occasion.",
   },
   {
     id: 23,
@@ -212,7 +210,7 @@ let flowerProducts = [
     image: boho ,
     new_price: 23.3,
     old_price: 28.3,
-    category:"love"
+    description: "Bathed in golden sunlight, this flower sings silently of new beginnings. Every curve of its petals feels like a lullaby from the Earth, soothing, sweet, and timeless.",
   },
   {
     id: 24,
@@ -220,7 +218,7 @@ let flowerProducts = [
     image: rose,
     new_price: 34.5,
     old_price: 39.5,
-    category:"love"
+    description: "Hidden between leaves and dreams, this bloom unfolds like a whispered secret. With every sway, it dances to the rhythm of the wind, enchanting all who pass by.",
   },
   {
     id: 25,
@@ -228,7 +226,7 @@ let flowerProducts = [
     image: garden,
     new_price: 20.95,
     old_price: 25.95,
-    category:"love"
+    description: "Not just a flower — but a spell in bloom. Its colors shimmer with emotion, its scent stirs memories you didn’t know you had. It's the kind of beauty that makes time pause... just for a moment.",
   },
   {
     id: 26,
@@ -236,7 +234,7 @@ let flowerProducts = [
     image: tropical,
     new_price: 28.75,
     old_price: 33.75,
-    category:"love"
+    description: "A flower born from the morning light, carrying within its petals a promise of peace. It spreads its fragrance gently, as if whispering to the world: (Be kind, for all things beautiful grow quietly.)",
   },
   {
     id:27,
@@ -244,7 +242,7 @@ let flowerProducts = [
     image: sunflower,
     new_price: 17.99,
     old_price: 22.99,
-    category:"love"
+    description: "Like a line from an unspoken poem, this shy rose blushes with the color of love. It looks at you softly, as if it knows your secrets. Between its petals... a heart beating with life.",
   }
 
  

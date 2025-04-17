@@ -24,14 +24,7 @@ let flowerProducts = [
     image: lavender,
     new_price: 19.99,
     old_price: 24.99
-  },
-  {
-    id: 4,
-    name: "Golden Daisies",
-    image: diazy,
-    new_price: 14.99,
-    old_price: 19.99
-  },
+  }
 ];
 
 export default flowerProducts;

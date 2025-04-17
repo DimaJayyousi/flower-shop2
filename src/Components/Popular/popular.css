@@ -17,8 +17,9 @@
  background-color: #445C35;
 }
 .popular_items{
-padding-right: 200px;
  margin-top: 50px;
  display: flex;
  gap:300px;
+ margin-right: 160px;
+ text-decoration: none;
 } 
