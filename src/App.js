@@ -9,10 +9,12 @@ import Talk from './Pages/talk'
 import Footer from './Components/Footer/footer'
 import About from './Pages/About';
 import ProductDetails from './Components/details/ProductDetails';
+import ShopContextProvider from "./context/ShopContext";
+
 function App() {
   return (
     <div>
-     <BrowserRouter>
+      <ShopContextProvider><BrowserRouter>
     <Navbar />
     <Routes>
       <Route path="/" element={<Home />} />
@@ -25,6 +27,8 @@ function App() {
     </Routes>
   </BrowserRouter>
    <Footer/>
+   </ShopContextProvider>
+     
     </div>
   );
 }
