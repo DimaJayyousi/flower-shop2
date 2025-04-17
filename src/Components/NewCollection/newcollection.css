@@ -18,7 +18,8 @@
  background-color: #445C35;
 }
 .collections {
-    padding-right: 140x;
+    padding-right: 200px;
+
     margin-top: 50px;
     display: flex;
     gap: 100px; /* Adjust the gap between items */

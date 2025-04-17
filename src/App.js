@@ -6,6 +6,7 @@ import Product from './Pages/product'
 import Cart from './Pages/cart'
 import Login from './Pages/login'
 import Talk from './Pages/talk'
+import Footer from './Components/Footer/footer'
 
 function App() {
   return (
@@ -21,8 +22,10 @@ function App() {
       <Route path="/talk" element={<Talk />} />
     </Routes>
   </BrowserRouter>
+   <Footer/>
     </div>
   );
 }
 
 export default App;
+//   
