@@ -54,6 +54,7 @@ const Cartitems = () => {
       })}
       <div className="total-price">
         <p>Total: ${totalPrice.toFixed(2)}</p>
+        <button className="checkout-btn">Proceed to Checkout</button>
       </div>
     </div>
   );

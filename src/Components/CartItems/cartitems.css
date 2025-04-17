@@ -29,9 +29,9 @@
 }
 
 .remove {
-  width: 50px;
-  height: 60px;
-  margin-left: 57px;
+  width: 30px;
+  height: 35px;
+  margin-left: 90px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 }
@@ -89,4 +89,21 @@ hr {
   .cartitems {
     padding: 10px;
   }
+}
+.checkout-btn {
+  margin-top: 15px;
+  padding: 12px 24px;
+  background-color: #345425; /* nice green */
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.checkout-btn:hover {
+  background-color: #5D754A;
+  transform: scale(1.05);
 }
