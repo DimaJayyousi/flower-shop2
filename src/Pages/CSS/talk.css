@@ -1,0 +1,26 @@
+/* src/pages/Talk.css */
+
+.talk-page {
+    padding: 3rem 1.5rem;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .talk-page h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .talk-page p {
+    text-align: center;
+    color: #555;
+    margin-bottom: 2rem;
+  }
+  
+  .flower-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
