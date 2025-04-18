@@ -1,0 +1,36 @@
+/* src/components/FlowerCard.css */
+
+.flower-card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    text-align: center;
+    background-color: #fff;
+    transition: transform 0.2s ease;
+  }
+  
+  .flower-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .flower-img {
+    width: 200px;
+    height:250px;
+
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .flower-card h3 {
+    font-size: 1.4rem;
+    color: #333;
+    margin: 0.5rem 0;
+  }
+  
+  .flower-card p {
+    color: #666;
+    font-size: 1rem;
+  }
+  

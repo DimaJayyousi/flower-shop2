@@ -1,0 +1,107 @@
+.navbar{
+    display: flex;
+    justify-content: space-around;
+    padding: 16px;
+    box-shadow:0 1px 3px -2px #c48c84 ;
+    height:80px;
+}
+.nav-logo{
+    display: flex;
+    align-items: center;
+    gap:10px;
+ }
+
+.nav-logo p {
+    color:#c37d75;
+    font-size:38px;
+    font-weight:600;
+    font-family:'Chicle';
+}
+.nav-logo img{
+    width: 50px;
+    height: 50px;
+}
+.nav-menu{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap:50px;
+    color: black;
+    font-size: 20px;
+    font-weight: 500;
+}
+.nav-menu li{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+.nav-cart-login{
+    display: flex;
+    align-items: center;
+    gap: 45px;
+    padding-left:25px;
+}
+.nav-cart-login button{
+    width: 130px;
+    height: 40px;
+    outline: none;
+    border: 1px solid ;
+    color: #c37d75;
+    font-size: 20px;
+    font-weight: 500;
+    background-color:white;
+    cursor:pointer;
+    border-radius: 20px;
+}
+.nav-cart-login button:active{
+    background: #f7d7db;
+
+}
+.nav-cart-login img {
+    width: 50px;
+    height: 50px;
+}
+.cart-counter{
+    width: 22px;
+    height: 22px;
+    display: flex;
+    justify-content: center;
+    margin-top:-35px;
+    margin-left: -59px;
+    border-radius: 11px;
+    font-size: 14px;
+    background: #c48c84;
+    color: whitesmoke;
+}
+
+.nav-menu li a {
+    text-decoration: none; /* Remove the default underline */
+    position: relative; /* Needed for the position of the ::after pseudo-element */
+    display: inline-block; /* Ensures the element behaves like a block-level element */
+    padding-bottom: 5px; /* Space for the underline effect */
+    color: #333; /* Set a color for the links */
+    transition: color 0.3s ease; /* Optional: smooth transition for color change on hover */
+  }
+  
+  /* Hover effect underline */
+  .nav-menu li a::after {
+    content: ''; /* Empty content for the pseudo-element */
+    position: absolute; /* Absolute positioning for the underline effect */
+    bottom: 0; /* Align at the bottom of the link */
+    left: 0; /* Align to the left side of the link */
+    width: 0%; /* Start with zero width */
+    height: 2px; /* Set the height for the underline */
+    background-color: #c37d75; /* Set the color of the underline */
+    transition: width 0.3s ease; /* Smooth transition for the underline */
+  }
+  
+  /* When the link is hovered, make the underline grow */
+  .nav-menu li a:hover::after {
+    width: 100%; /* On hover, expand the underline to the full width of the link */
+  }
+  
+  
