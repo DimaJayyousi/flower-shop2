@@ -4,10 +4,9 @@ import logo from '../Assetes/logo.png';
 import cart from '../Assetes/bag.png';
 import { Link } from 'react-router-dom';
 import { ShopContext } from '../../context/ShopContext';
-
 function Navbar() {
   const { getTotalCartItems } = useContext(ShopContext);
-
+ 
   return (
     <div className="navbar">
       <div className="nav-logo">
