@@ -1,53 +1,74 @@
-const port = 4000;
+// index.js
+require("dotenv").config(); 
+
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
+const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
-const cors = require("cors"); // ✅ fixed this line
-const { error } = require("console");
+const fs = require("fs");
 
+const app = express();
+const port = process.env.PORT || 4000; 
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-//database connection with mongo db 
-mongoose.connect("mongodb+srv://dimajayousi:smile77820@cluster0.alzq4jx.mongodb.net/Poeny")
+// Static folder to serve images
+app.use("/images", express.static(path.join(__dirname, "upload/images")));
 
-//API creation 
+// Make sure upload/images exists!
+const uploadDir = path.join(__dirname, "upload/images");
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
-app.get("/" ,(req,res)=>{
-    res.send("Express App is Running")
-})
-app.listen(port,(error)=>{
-    if(!error){
-        console.log("server Running on port"+port)
-
-    }
-    else{
-        console.log("Error"+error)
-    }
-})
-
-
-
+// Multer setup
 const storage = multer.diskStorage({
-    destination: './upload/images',
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
     filename: (req, file, cb) => {
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
-    }
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+    },
+});
+const upload = multer({ storage });
+
+// Debug logging
+app.use((req, res, next) => {
+    console.log(`[${req.method}] ${req.url}`);
+    next();
 });
 
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log("✅ Connected to MongoDB"))
+.catch((err) => console.error("❌ MongoDB connection error:", err));
 
-const upload = multer({ storage: storage });
+// Basic route
+app.get("/", (req, res) => {
+    res.send("API is running 🚀");
+});
 
-// serve static images
-app.use('/images', express.static('upload/images'));
+// Upload route
+app.post("/upload", upload.single("product"), (req, res) => {
+    console.log("Upload route hit");
 
-// image upload endpoint
-app.post("/upload", upload.single('product'), (req, res) => {
-    res.json({
+    if (!req.file) {
+        return res.status(400).json({ success: 0, message: "No file uploaded" });
+    }
+
+    res.status(200).send({
         success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
+        image_url: `http://localhost:${port}/images/${req.file.filename}`,
     });
+});
+
+// Start server
+app.listen(port, () => {
+    console.log(`✅ Server running at http://localhost:${port}`);
 });
