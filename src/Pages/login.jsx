@@ -1,5 +1,4 @@
 import React from 'react'
-import Footer from '../Components/Footer/footer'
 import './CSS/login-signup.css'
 const login = () => {
   return (
@@ -20,7 +19,7 @@ const login = () => {
       </div>
       
     </div>
-    <Footer/>
+    
     </div>
     
   )

@@ -27,6 +27,7 @@ function App() {
     </Routes>
   </BrowserRouter>
    <Footer/>
+   
    </ShopContextProvider>
      
     </div>
