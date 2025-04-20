@@ -1,74 +1,74 @@
-// index.js
-require("dotenv").config(); 
+const express = require('express');
+const multer = require('multer');
+const mongoose = require('mongoose');
+const path = require('path');
+const fs = require('fs');
+const dotenv = require('dotenv');
+const Image = require('./models/image');
 
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
+dotenv.config(); // ⬅️ Load .env variables
 
 const app = express();
-const port = process.env.PORT || 4000; 
 
-// Middleware
-app.use(express.json());
-app.use(cors());
-
-// Static folder to serve images
-app.use("/images", express.static(path.join(__dirname, "upload/images")));
-
-// Make sure upload/images exists!
-const uploadDir = path.join(__dirname, "upload/images");
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
+// Check and create uploads folder if it doesn’t exist
+const uploadPath = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath);
 }
 
-// Multer setup
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
-    },
-});
-const upload = multer({ storage });
-
-// Debug logging
-app.use((req, res, next) => {
-    console.log(`[${req.method}] ${req.url}`);
-    next();
-});
-
-// MongoDB Connection
+// Connect to MongoDB using MONGO_URI from .env
 mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => console.log("✅ Connected to MongoDB"))
-.catch((err) => console.error("❌ MongoDB connection error:", err));
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('🧠 Connected to MongoDB via .env'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-// Basic route
-app.get("/", (req, res) => {
-    res.send("API is running 🚀");
+// Set up Multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `${Date.now()}-${file.fieldname}${ext}`);
+  }
 });
 
-// Upload route
-app.post("/upload", upload.single("product"), (req, res) => {
-    console.log("Upload route hit");
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only images are allowed 😭'), false);
+  }
+};
 
-    if (!req.file) {
-        return res.status(400).json({ success: 0, message: "No file uploaded" });
-    }
+const upload = multer({ storage, fileFilter });
 
-    res.status(200).send({
-        success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`,
+// POST /upload route
+app.post('/upload', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded 😬' });
+
+    const newImage = new Image({
+      filename: req.file.filename,
+      path: req.file.path,
+      mimetype: req.file.mimetype,
+      size: req.file.size
     });
+
+    const savedImage = await newImage.save();
+
+    res.status(201).json({
+      message: 'Image uploaded and saved to MongoDB 🛸',
+      image: savedImage
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Start server
-app.listen(port, () => {
-    console.log(`✅ Server running at http://localhost:${port}`);
+app.listen(3000, () => {
+  console.log('🚀 Server running at http://localhost:3000');
 });
