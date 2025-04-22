@@ -4,40 +4,25 @@ const mongoose = require('mongoose');
 const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
-const Image = require('./models/image');
-const { log } = require('console');
+const Image = require('./models/image'); // assumes you have an Image schema/model
 
-dotenv.config(); // Load .env variables
-console.log('👀 Loaded MONGO_URI:', process.env.MONGO_URI);
-
+dotenv.config();
 const app = express();
 
-// Middleware to parse JSON and form data (used once at the top)
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Check and create uploads folder if it doesn’t exist
-const uploadPath = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath);
+// Auto-create uploads/images folder
+const uploadDir = path.join(__dirname, 'uploads/images');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+  console.log('📁 Created uploads/images directory');
 }
 
-// Connect to MongoDB with updated settings
-mongoose.connect(process.env.MONGO_URI, {
-  serverSelectionTimeoutMS: 50000, // Wait for 50 seconds
-  socketTimeoutMS: 45000,          // Wait for 45 seconds before timing out
-})
-  .then(() => console.log('🧠 Connected to MongoDB'))
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit process if connection fails
-  });
-
-// Multer storage config
+// Multer config to save in uploads/images
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
+  destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
     cb(null, `${Date.now()}-${file.fieldname}${ext}`);
@@ -45,17 +30,24 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only images are allowed 😭'), false);
-  }
+  const allowed = ['image/jpeg', 'image/png', 'image/gif'];
+  allowed.includes(file.mimetype) ? cb(null, true) : cb(new Error('Only images allowed! 😤'), false);
 };
 
 const upload = multer({ storage, fileFilter });
 
-// POST /upload route to handle image uploads
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 50000,
+  socketTimeoutMS: 45000,
+})
+  .then(() => console.log('🧠 Connected to MongoDB'))
+  .catch(err => {
+    console.error('❌ MongoDB connection error:', err);
+    process.exit(1);
+  });
+
+// Upload route
 app.post('/upload', upload.single('image'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded 😬' });
@@ -64,14 +56,14 @@ app.post('/upload', upload.single('image'), async (req, res) => {
       filename: req.file.filename,
       path: req.file.path,
       mimetype: req.file.mimetype,
-      size: req.file.size
+      size: req.file.size,
     });
 
     const savedImage = await newImage.save();
 
     res.status(201).json({
-      message: 'Image uploaded and saved to MongoDB 🛸',
-      image: savedImage
+      message: 'Image uploaded & saved to MongoDB 🛸',
+      image: savedImage,
     });
   } catch (err) {
     console.error('Image upload error:', err);
@@ -79,63 +71,28 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   }
 });
 
-// Product Schema
+// Product schema
 const Product = mongoose.model("Product", {
-  id: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  newPrice: {
-    type: Number,
-    required: true,
-  },
-  oldPrice: {
-    type: Number,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  available: {
-    type: Boolean,
-    default: true,
-  },
+  id: { type: Number, required: true, unique: true },
+  name: { type: String, required: true },
+  image: { type: String, required: true },
+  newPrice: { type: Number, required: true },
+  oldPrice: { type: Number, required: true },
+  description: { type: String, required: true },
+  date: { type: Date, default: Date.now },
+  available: { type: Boolean, default: true },
 });
 
-// POST /addproduct route to handle product additions
+// Add Product
 app.post('/addproduct', async (req, res) => {
   try {
-    // Log the incoming data to ensure you are receiving the correct body
-    console.log('Incoming product data:', req.body);
-
-    let products = await Product.find({}); // FIXED here, changed `product` to `Product`
-    let id;
-    if (products.length > 0) {
-      let last_product_array = products.slice(-1);
-      let last_product = last_product_array[0];
-      id = last_product.id + 1;
-    } else {
-      id = 1;
-    }
+    const last = await Product.findOne().sort({ id: -1 });
+    const newId = last ? last.id + 1 : 1;
 
     const product = new Product({
-      id: id, // Use the newly generated `id`
+      id: newId,
       name: req.body.name,
-      image: req.body.image, // Assuming image is a file path or URL string
+      image: req.body.image, // Should be image path from upload
       description: req.body.description,
       newPrice: req.body.newPrice,
       oldPrice: req.body.oldPrice,
@@ -144,26 +101,46 @@ app.post('/addproduct', async (req, res) => {
     await product.save();
     console.log("✅ Product saved to MongoDB");
 
-    res.json({
-      success: true,
-      name: req.body.name,
-    });
+    res.json({ success: true, name: req.body.name });
   } catch (err) {
     console.error('Product save error:', err);
     res.status(500).json({ success: false, error: err.message });
   }
 });
-// Creating API for deleting products 
 
-app.post('/removeproduct',async(req,res)=>{
-await Product.findOneAndDelete({id:req.body.id});
-console.log("Removed ");
-res.json({
-  success:true,
-  name:req.body.name,
-})
-})
-// Start the server
+// Remove product by ID
+app.post('/removeproduct', async (req, res) => {
+  try {
+    const deleted = await Product.findOneAndDelete({ id: req.body.id });
+
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        message: `Product with ID ${req.body.id} not found 🕵️‍♀️`,
+      });
+    }
+
+    console.log(`🗑️ Removed product: ${deleted.name}`);
+    res.json({ success: true, name: deleted.name });
+  } catch (err) {
+    console.error('Product removal error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Get all products
+app.get('/allproducts', async (req, res) => {
+  try {
+    const products = await Product.find({});
+    console.log("📦 All products fetched");
+    res.json(products);
+  } catch (err) {
+    console.error('Fetching products failed:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Start server
 app.listen(3000, () => {
   console.log('🚀 Server running at http://localhost:3000');
 });
