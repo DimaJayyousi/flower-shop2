@@ -66,12 +66,14 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     res.status(201).json({
       message: 'Image uploaded & saved to MongoDB 🛸',
       image: savedImage,
+      image_url: `http://localhost:3000/${savedImage.path}`, // ✅ now it works
     });
   } catch (err) {
     console.error('Image upload error:', err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // Product schema
 const Product = mongoose.model("Product", {
