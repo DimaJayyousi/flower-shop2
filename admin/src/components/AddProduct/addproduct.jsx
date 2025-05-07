@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react'
 import './addprodcut.css'
 import uploadarea from '../../components/assets/upload.png'
-import { uploadimage } from '../../utils/dashboard'
+import { uploadimage, addfun } from '../../utils/dashboard'
 const addproduct = () => {
 
   const [image, setImage] = useState(false);
@@ -20,50 +21,44 @@ const addproduct = () => {
     setproductdetales({ ...productDetales, [e.target.name]: e.target.value })
   }
 
-  const Add_Product = async () => {
-    // Validate required fields before proceeding
-    if (!image) {
-      alert('Please select an image');
-      return;
-    }
-    if (!productDetales.name || !productDetales.newPrice) {
-      alert('Please fill all required fields');
-      return;
-    }
+  
 
+
+  const Add_Product = async () => {
+    console.log('🛠️ Product details:', productDetales);
+    let product = productDetales;
+  
     try {
       // 1. Upload Image
       const formData = new FormData();
       formData.append('image', image);
-
-      console.log('Uploading image...');
-
-      let uploadResponse = await uploadimage(formData);
-
-      // 2. Prepare product data
-      const product = {
-        ...productDetales,
-        image: uploadResponse.path,
-        newPrice: Number(productDetales.newPrice),
-        oldPrice: Number(productDetales.oldPrice) || Number(productDetales.newPrice),
-      };
-
-      // Reset form after successful submission
-      setproductdetales({
-        name: "",
-        image: "",
-        newPrice: "",
-        oldPrice: "",
-        description: ""
-      });
-      setImage(false);
-
+      console.log('📤 Uploading image...');
+  
+      const responseData = await uploadimage(formData);
+  
+      const fallbackPath = responseData.image?.path;
+      const baseURL = 'http://localhost:3000/';
+  
+      // Prefer image_url, fallback to image.path
+      product.image = responseData.image_url || (fallbackPath ? `${baseURL}${fallbackPath}` : null);
+  
+      if (!product.image) {
+        console.warn('🚫 Could not assign product.image:', responseData);
+        alert("Something went sideways with the image upload");
+        return; // exit early if image URL failed
+      }
+  
+      console.log('✅ Image assigned:', product.image);
+  
+      // 2. Add Product to Backend
+      await addfun(product);
+  
     } catch (error) {
-      console.error('Error:', error);
-      alert(`Error: ${error.message}`);
+      console.error('❌ Error in Add_Product:', error);
+      alert("Something went wrong — check the console");
     }
   };
-
+  
   return (
     <div className="addproduct">
       <div className="addproduct-itemfield">
