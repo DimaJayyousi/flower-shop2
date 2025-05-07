@@ -40,35 +40,36 @@ const addproduct = () => {
       const baseURL = 'http://localhost:3000/';
   
       // Prefer image_url, fallback to image.path
-      product.image = responseData.image.filename;
+      product.image = responseData.image_url || (fallbackPath ? `${baseURL}${fallbackPath}` : null);
   
       if (!product.image) {
         console.warn('🚫 Could not assign product.image:', responseData);
         alert("Something went sideways with the image upload");
-        return; // exit early if image URL failed
+        return;
       }
   
       console.log('✅ Image assigned:', product.image);
   
       // 2. Add Product to Backend
       await addfun(product);
-
-       // 🔄 3. Reset form fields
-    setproductdetales({
-      name: "",
-      image: "",
-      newPrice: "",
-      oldPrice: "",
-      description: ""
-    });
-    setImage(false); // Reset file thumbnail
+  
+  
+      // 🔄 3. Reset form fields
+      setproductdetales({
+        name: "",
+        image: "",
+        newPrice: "",
+        oldPrice: "",
+        description: ""
+      });
+      setImage(false); // Reset file thumbnail
   
     } catch (error) {
       console.error('❌ Error in Add_Product:', error);
       alert("Something went wrong — check the console");
     }
   };
-  
+
   return (
     <div className="addproduct">
       <div className="addproduct-itemfield">

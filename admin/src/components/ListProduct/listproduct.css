@@ -28,14 +28,14 @@
     align-items: center;
   }
   
-  .listproduct-producticon{
+ 
     .listproduct-producticon {
         height: 80px;
         width: 80px; /* Set a fixed width */
         object-fit: cover; /* Ensures the image fills the box without distortion */
         border-radius: 8px; /* Optional: adds some nice rounding */
       }
-  }
+  
   .listproduct-removeicon{
     height: 30px;
     width: 40px;

@@ -49,11 +49,3 @@ export async function addfun(product) {
     }
 }
 
-/*export async function allproduct() {
-    try{
-   const  fetchinfo =await fetch('http://localhost:3000/allproducts');
-
-    }catch{
-
-    }
-}*/
