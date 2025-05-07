@@ -48,3 +48,12 @@ export async function addfun(product) {
         return error;
     }
 }
+
+/*export async function allproduct() {
+    try{
+   const  fetchinfo =await fetch('http://localhost:3000/allproducts');
+
+    }catch{
+
+    }
+}*/

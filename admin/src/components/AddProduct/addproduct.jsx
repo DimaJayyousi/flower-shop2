@@ -40,7 +40,7 @@ const addproduct = () => {
       const baseURL = 'http://localhost:3000/';
   
       // Prefer image_url, fallback to image.path
-      product.image = responseData.image_url || (fallbackPath ? `${baseURL}${fallbackPath}` : null);
+      product.image = responseData.image.filename;
   
       if (!product.image) {
         console.warn('🚫 Could not assign product.image:', responseData);
@@ -52,6 +52,16 @@ const addproduct = () => {
   
       // 2. Add Product to Backend
       await addfun(product);
+
+       // 🔄 3. Reset form fields
+    setproductdetales({
+      name: "",
+      image: "",
+      newPrice: "",
+      oldPrice: "",
+      description: ""
+    });
+    setImage(false); // Reset file thumbnail
   
     } catch (error) {
       console.error('❌ Error in Add_Product:', error);
