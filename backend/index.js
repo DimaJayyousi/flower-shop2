@@ -57,7 +57,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
     const newImage = new Image({
       filename: req.file.filename,
-      path: `/images/${req.file.filename}`,
+      path: req.file.filename,
       mimetype: req.file.mimetype,
       size: req.file.size,
     });
@@ -97,7 +97,7 @@ app.post('/addproduct', async (req, res) => {
     const product = new Product({
       id: newId,
       name: req.body.name,
-      image: imageFilename, // Should be image path from upload
+      image: req.body.image, // Should be image path from upload
       description: req.body.description,
       newPrice: req.body.newPrice,
       oldPrice: req.body.oldPrice,
@@ -144,6 +144,60 @@ app.get('/allproducts', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+//Shema creating for user model
+
+const Users = mongoose.model('Users',{
+  name:{
+    type:String,
+  },
+  email:{
+    type:String,
+    unique:true,
+  },
+  password:{
+    type:String,
+  },
+  cartData:{
+    type:Object,
+  },
+  date:{
+    type:Date,
+    defai:Date.now,
+  }
+})
+
+//Creating endpoint for Registering the user 
+app.post('/signup',async(req,res)=>{
+let check= await Users.findOne({email:req.aborted.email});
+if(check){
+  return res.status(400).json({success:false,errors:"existing user found with same email address "});
+}
+let cart = {};
+for (let i=0 ; i<300 ;i++){
+  cart[i]=0;
+}
+
+const user =new Users({
+  name:req.body.username,
+  email:req.body.email,
+  password:req.body.password,
+  cartData:cart,
+})
+
+await user.save();
+
+const data = {
+  user:{
+    id:user.id
+  }
+}
+
+const token =jwt.sign(data,'secret_ecom');
+res.json({success:true,token});
+n
+})
+
 
 // Start server
 app.listen(3000, () => {
