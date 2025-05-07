@@ -14,6 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use('/images', express.static(path.join(__dirname, 'uploads/images')));
 
 // Auto-create uploads/images folder
 const uploadDir = path.join(__dirname, 'uploads/images');
@@ -56,7 +57,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
     const newImage = new Image({
       filename: req.file.filename,
-      path: req.file.path,
+      path: `/images/${req.file.filename}`,
       mimetype: req.file.mimetype,
       size: req.file.size,
     });
@@ -66,7 +67,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     res.status(201).json({
       message: 'Image uploaded & saved to MongoDB 🛸',
       image: savedImage,
-      image_url: `http://localhost:3000/${savedImage.path}`, // ✅ now it works
+      image_url: `http://localhost:3000/images/${savedImage.filename}`,
     });
   } catch (err) {
     console.error('Image upload error:', err);
@@ -96,7 +97,7 @@ app.post('/addproduct', async (req, res) => {
     const product = new Product({
       id: newId,
       name: req.body.name,
-      image: req.body.image, // Should be image path from upload
+      image: imageFilename, // Should be image path from upload
       description: req.body.description,
       newPrice: req.body.newPrice,
       oldPrice: req.body.oldPrice,
