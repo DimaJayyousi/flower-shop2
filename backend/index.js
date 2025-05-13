@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
 const Image = require('./models/image'); // assumes you have an Image schema/model
+const jwt = require('jsonwebtoken');
 
 dotenv.config();
 const app = express();
@@ -169,35 +170,58 @@ const Users = mongoose.model('Users',{
 
 //Creating endpoint for Registering the user 
 app.post('/signup',async(req,res)=>{
-let check= await Users.findOne({email:req.aborted.email});
-if(check){
-  return res.status(400).json({success:false,errors:"existing user found with same email address "});
-}
-let cart = {};
-for (let i=0 ; i<300 ;i++){
-  cart[i]=0;
-}
+try {
+    // ✅ FIXED: Properly accessing the email from the request body
+    let check = await Users.findOne({ email: req.body.email });
 
-const user =new Users({
-  name:req.body.username,
-  email:req.body.email,
-  password:req.body.password,
-  cartData:cart,
-})
+    if (check) {
+      // 🎯 Friendly error message when email already exists
+      return res.status(400).json({
+        success: false,
+        message: "Oops! This email is already registered. Try logging in instead 😊"
+      });
+    }
 
-await user.save();
+    // 🌸 Initialize an empty cart
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+      cart[i] = 0;
+    }
 
-const data = {
-  user:{
-    id:user.id
+    // 👤 Creating the new user
+    const user = new Users({
+      name: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      cartData: cart,
+    });
+
+    // 💾 Save user to MongoDB
+    await user.save();
+
+    // 🔐 Generate JWT token
+    const data = {
+      user: {
+        id: user.id,
+      },
+    };
+
+    const token = jwt.sign(data, 'your_jwt_secret_key'); // Replace with your real secret or use process.env.JWT_SECRET
+
+    // ✅ Send success response
+    res.status(200).json({
+      success: true,
+      token: token,
+      message: "Signup successful! Welcome to the flower fam 🌺"
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong 😬 Please try again later."
+    });
   }
-}
-
-const token =jwt.sign(data,'secret_ecom');
-res.json({success:true,token});
-n
-})
-
+});
 
 // Start server
 app.listen(3000, () => {
