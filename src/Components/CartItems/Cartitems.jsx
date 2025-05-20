@@ -1,19 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './cartitems.css';
 import { ShopContext } from '../../context/ShopContext';
 import Remove from '../Assetes/bin.png';
 
 const Cartitems = () => {
   const { all_product, cartItems, removefromCart } = useContext(ShopContext);
+  const [checkoutMessage, setCheckoutMessage] = useState('');
+  const [messageVisible, setMessageVisible] = useState(false);
 
   let totalPrice = 0;
+  let isCartEmpty = true;
 
-  // Calculate the total price of all items in the cart
   all_product.forEach((product) => {
     if (cartItems[product.id] > 0) {
       totalPrice += product.new_price * cartItems[product.id];
+      isCartEmpty = false;
     }
   });
+
+  const handleCheckout = () => {
+    if (isCartEmpty) {
+      setCheckoutMessage('Please fill the cart 🛒');
+    } else {
+      setCheckoutMessage('Your order will be managed soon 😊');
+    }
+    setMessageVisible(true);
+
+    // Hide message after 3 seconds
+    setTimeout(() => {
+      setMessageVisible(false);
+    }, 3000);
+  };
 
   return (
     <div className='cartitems'>
@@ -54,7 +71,14 @@ const Cartitems = () => {
       })}
       <div className="total-price">
         <p>Total: ${totalPrice.toFixed(2)}</p>
-        <button className="checkout-btn">Proceed to Checkout</button>
+        <button className="checkout-btn" onClick={handleCheckout}>
+          Proceed to Checkout
+        </button>
+
+        {/* Show message only if it's visible */}
+        {messageVisible && (
+          <p className="checkout-message">{checkoutMessage}</p>
+        )}
       </div>
     </div>
   );
