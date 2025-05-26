@@ -246,6 +246,48 @@ app.post('/login',async(req,res)=>{
     res.json({success:false,errors:"wrong Email Id"})
   }
 })
+
+
+const Order = mongoose.model('Order', {
+  userId: { type: String, required: true },
+  items: { type: Object, required: true },  // cart items with product IDs as keys
+  deliveryTime: { type: Date, required: true },  // changed to Date type for easier formatting
+  status: { type: String, default: 'pending' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+app.post('/createorder', async (req, res) => {
+  try {
+    const { userId, cartItems, deliveryTime } = req.body;
+
+    if (!userId || !cartItems || !deliveryTime) {
+      return res.status(400).json({ success: false, message: "Missing fields ❌" });
+    }
+
+    const newOrder = new Order({
+      userId,
+      items: cartItems,
+      deliveryTime,
+    });
+
+    await newOrder.save();
+
+    res.status(200).json({ success: true, message: "Order placed successfully 🎉" });
+  } catch (err) {
+    console.error("🚨 Order error:", err);
+    res.status(500).json({ success: false, message: "Failed to place order 😬" });
+  }
+});
+
+app.get('/getorders', async (req, res) => {
+  try {
+    const orders = await Order.find({});
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch orders' });
+  }
+});
+
 // Start server
 app.listen(3000, () => {
   console.log('🚀 Server running at http://localhost:3000');
